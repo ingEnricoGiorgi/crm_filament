@@ -40,7 +40,7 @@ class LeadResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\Leads\RelationManagers\AppointmentsRelationManager::class,
         ];
     }
 
