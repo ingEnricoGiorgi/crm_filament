@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
 
 class LeadsTable
 {
@@ -33,8 +34,15 @@ class LeadsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('current_status')
+                    ->options([
+                        'NEW' => 'NEW',
+                        'CONTACTED' => 'CONTACTED',
+                        'PROSPECT' => 'PROSPECT',
+                        'CLOSED' => 'CLOSED',
+                    ]),
             ])
+            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->recordActions([
                 EditAction::make(),
             ])
