@@ -22,6 +22,8 @@ class AppointmentResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'date_start';
 
+    protected static ?string $navigationLabel = 'Appuntamenti';
+
     public static function form(Schema $schema): Schema
     {
         return AppointmentForm::configure($schema);
