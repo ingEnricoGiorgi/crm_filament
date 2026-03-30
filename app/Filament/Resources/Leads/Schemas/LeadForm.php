@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Leads\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use App\Enums\LeadStatus;
 
 class LeadForm
 {
@@ -11,16 +13,10 @@ class LeadForm
     {
         return $schema
             ->components([
-                TextInput::make('full_name')
-                    ->required(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email(),
-                TextInput::make('phone')
-                    ->tel(),
-                TextInput::make('current_status')
-                    ->required()
-                    ->default('NEW'),
-            ]);
+                TextInput::make('full_name')->required(),
+                TextInput::make('email')->label('Email address')->email(),
+                TextInput::make('phone')->tel(),
+                Select::make('current_status')->options(collect(\App\Enums\LeadStatus::cases())
+                ->mapWithKeys(fn($c)=>[$c->value=>$c->name])->toArray())->default(\App\Enums\LeadStatus::NEW->value)->required(),]);
     }
 }

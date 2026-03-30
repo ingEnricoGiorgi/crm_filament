@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use App\Enums\LeadStatus;
 
 class LeadsTable
 {
@@ -35,12 +36,18 @@ class LeadsTable
             ])
             ->filters([
                 SelectFilter::make('current_status')
-                    ->options([
-                        'NEW' => 'NEW',
-                        'CONTACTED' => 'CONTACTED',
-                        'PROSPECT' => 'PROSPECT',
-                        'CLOSED' => 'CLOSED',
-                    ]),
+                    ->options(
+                        collect(LeadStatus::cases())
+                            ->mapWithKeys(fn ($case) => [$case->value => $case->name])
+                            ->toArray()
+                    ),
+                // SelectFilter::make('current_status')
+                //     ->options([
+                //         'NEW' => 'NEW',
+                //         'CONTACTED' => 'CONTACTED',
+                //         'PROSPECT' => 'PROSPECT',
+                //         'CLOSED' => 'CLOSED',
+                //     ]),
             ])
             ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->recordActions([
