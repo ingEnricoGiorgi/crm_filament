@@ -11,5 +11,9 @@ class Lead extends Model
     'email',
     'phone',
     'current_status',
-];
+    ];
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
