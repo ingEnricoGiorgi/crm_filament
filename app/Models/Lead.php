@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Lead extends Model
 {
     protected $fillable = [
-    'full_name',
+    'name',
+    'surname',
     'email',
     'phone',
     'current_status',

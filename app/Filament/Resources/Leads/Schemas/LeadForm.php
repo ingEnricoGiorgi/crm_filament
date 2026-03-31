@@ -13,7 +13,8 @@ class LeadForm
     {
         return $schema
             ->components([
-                TextInput::make('full_name')->required(),
+                TextInput::make('name')->required(),
+                TextInput::make('surname')->required(),
                 TextInput::make('email')->label('Email address')->email(),
                 TextInput::make('phone')->tel(),
                 Select::make('current_status')->options(collect(\App\Enums\LeadStatus::cases())
