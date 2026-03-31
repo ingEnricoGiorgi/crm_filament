@@ -17,4 +17,13 @@ class Lead extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    /**
+     * Get the operator associated with the lead.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function operator(){
+        return $this->belongsTo(User::class,'operator_id');
+        }
 }

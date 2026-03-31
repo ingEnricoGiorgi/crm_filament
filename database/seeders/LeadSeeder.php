@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class LeadSeeder extends Seeder
 {
-    public function run(): void
+   public function run(): void
     {
         DB::table('leads')->insert([
             [
@@ -16,6 +16,7 @@ class LeadSeeder extends Seeder
                 'email' => 'mario.rossi@test.com',
                 'phone' => '3331234567',
                 'current_status' => 'NEW',
+                'operator_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -25,6 +26,7 @@ class LeadSeeder extends Seeder
                 'email' => 'luca.bianchi@test.com',
                 'phone' => '3337654321',
                 'current_status' => 'CONTACTED',
+                'operator_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -34,6 +36,7 @@ class LeadSeeder extends Seeder
                 'email' => 'anna.verdi@test.com',
                 'phone' => '3339999999',
                 'current_status' => 'NEW',
+                'operator_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
