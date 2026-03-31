@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\Action;
 use App\Enums\LeadStatus;
 
 class LeadsTable
@@ -44,6 +45,30 @@ class LeadsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export')
+                    ->label('Export Excel')
+                    ->action(function () {
+                        return response()->streamDownload(function () {
+                            $file = fopen('php://output', 'w');
+
+                            fputcsv($file, ['Nome', 'Cognome', 'Email', 'Telefono', 'Status']);
+
+                            \App\Models\Lead::chunk(100, function ($leads) use ($file) {
+                                foreach ($leads as $lead) {
+                                    fputcsv($file, [
+                                        $lead->name,
+                                        $lead->surname,
+                                        $lead->email,
+                                        $lead->phone,
+                                        $lead->current_status,
+                                    ]);
+                                }
+                            });
+
+                            fclose($file);
+                        }, 'leads.csv');
+                    }),
+
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

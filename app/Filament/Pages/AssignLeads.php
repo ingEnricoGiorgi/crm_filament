@@ -26,6 +26,7 @@ class AssignLeads extends Page implements HasForms
 
     public ?array $data = [];
 
+    //obbligatorio quando parte il componente
     public function mount(): void
     {
         $this->form->fill();
@@ -46,12 +47,12 @@ class AssignLeads extends Page implements HasForms
     }
 
     public function submit(){
-    $ids=$this->data['lead_ids']??[];
-    if(empty($ids)){
-        Notification::make()->title('Nessun lead selezionato')->danger()->send();
-        return;
-        }
-    Lead::whereIn('id',$ids)->update(['operator_id'=>$this->data['operator_id']]);
-    Notification::make()->title('Lead assegnati')->success()->send();
+        $ids=$this->data['lead_ids']??[];
+        if(empty($ids)){
+            Notification::make()->title('Nessun lead selezionato')->danger()->send();
+            return;
+            }
+        Lead::whereIn('id',$ids)->update(['operator_id'=>$this->data['operator_id']]);
+        Notification::make()->title('Lead assegnati')->success()->send();
     }
 }
