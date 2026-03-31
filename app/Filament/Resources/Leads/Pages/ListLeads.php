@@ -12,6 +12,7 @@ class ListLeads extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        //aggiunge bottone create nuvoo lead
         return [
             CreateAction::make(),
         ];
