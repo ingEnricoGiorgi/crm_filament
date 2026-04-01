@@ -2,5 +2,6 @@
 
 return
 [
-    'title' => 'Home'
+    'title' => 'Home',
+    'save' => 'Salva'
 ];
