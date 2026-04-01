@@ -1,5 +1,14 @@
 <x-filament-panels::page>
-    <form wire:submit="submit">
+    {{-- custom alert component --}}
+    @if($this->alert)
+        <x-ui.alert :type="$this->alert['type']">
+            {{ $this->alert['message'] }}
+        </x-ui.alert>
+    @endif
+
+
+
+    <form wire:submit.prevent="submit">
         {{ $this->form }}
 
         <x-filament::button type="submit" class="my-button">

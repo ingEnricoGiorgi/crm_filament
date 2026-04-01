@@ -16,15 +16,20 @@ use Filament\Notifications\Notification;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-   use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\ValidationException;
+use \Filament\Support\Icons\Heroicon;
+use BackedEnum;
 
 class TestForm extends Page implements HasForms
 {
     use InteractsWithForms;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
     protected string $view = 'filament.pages.test-form';
 
     public $data = [];
+
+    public $alert = null;
 
     public function mount(): void
     {
@@ -44,19 +49,22 @@ class TestForm extends Page implements HasForms
      *
      * @return void
      */
+
     public function submit()
     {
         try {
+            $this->alert = null; // reset
+
             $data = $this->form->getState();
 
             $data['password'] = Hash::make($data['password']);
 
             User::create($data);
 
-            Notification::make()
-                ->title('Utente creato')
-                ->success()
-                ->send();
+            $this->alert = [
+                'type' => 'success',
+                'message' => 'Utente creato con successo',
+            ];
 
         } catch (ValidationException $e) {
             throw $e;
@@ -64,12 +72,41 @@ class TestForm extends Page implements HasForms
         } catch (\Throwable $e) {
             Log::error($e);
 
-            Notification::make()
-                ->title('Errore durante il salvataggio')
-                ->danger()
-                ->send();
+            $this->alert = [
+                'type' => 'error',
+                'message' => 'Errore durante il salvataggio',
+            ];
         }
     }
+
+
+    //alternativa con notifiche base di filament
+    // public function submit()
+    // {
+    //     try {
+    //         $data = $this->form->getState();
+
+    //         $data['password'] = Hash::make($data['password']);
+
+    //         User::create($data);
+
+    //         Notification::make()
+    //             ->title('Utente creato')
+    //             ->success()
+    //             ->send();
+
+    //     } catch (ValidationException $e) {
+    //         throw $e;
+
+    //     } catch (\Throwable $e) {
+    //         Log::error($e);
+
+    //         Notification::make()
+    //             ->title('Errore durante il salvataggio')
+    //             ->danger()
+    //             ->send();
+    //     }
+    // }
 
 
     protected function getFormSchema(): array
