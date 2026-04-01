@@ -53,6 +53,14 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->renderHook(
+                'panels::head.end',
+                fn () => '<link rel="stylesheet" href="/css/custom.css">'
+            )
+            ->renderHook(
+                'panels::body.end',
+                fn () => '<script src="' . asset('js/custom.js') . '"></script>'
+            )
             ->authMiddleware([
                 Authenticate::class,
             ]);
