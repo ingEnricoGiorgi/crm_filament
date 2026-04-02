@@ -34,3 +34,7 @@ margin-top:1em
 .alert-close:hover {
     opacity: 1;
 }
+ /* ------------------- */
+.fi-layout {
+    background-color: #111827;
+}
