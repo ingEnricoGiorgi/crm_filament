@@ -14,7 +14,7 @@ use Filament\Notifications\Notification;
 use BackedEnum;
 use App\Models\User;
 use App\Models\Lead;
-
+    use Filament\Schemas\Components\Callout;
 
 class AssignLeads extends Page implements HasForms
 {
@@ -26,41 +26,62 @@ class AssignLeads extends Page implements HasForms
 
     public ?array $data = [];
 
+    public ?string $message = null;
+
+    public ?string $type = null;
+
     //obbligatorio quando parte il componente
     public function mount(): void
     {
         $this->form->fill();
     }
 
+    public function submit()
+    {
+        $ids = $this->data['lead_ids'] ?? [];
+
+        if (empty($ids)) {
+            $this->type = 'danger';
+            $this->message = 'Nessun lead selezionato';
+            return;
+        }
+
+        Lead::whereIn('id', $ids)->update([
+            'operator_id' => $this->data['operator_id']
+        ]);
+
+        $this->type = 'success';
+        $this->message = 'Lead assegnati';
+    }
+
     public function form(Schema $form): Schema
     {
         return $form
             ->schema([
+
+                Callout::make('alert')
+                    ->visible(fn () => $this->message !== null)
+                    ->description(fn () => $this->message)
+                    ->success(fn () => $this->type === 'success')
+                    ->danger(fn () => $this->type === 'danger')
+                    ->columnSpan(1),
+
                 Select::make('operator_id')
                     ->label('Operatore')
-                    ->options(User::all()->mapWithKeys(fn ($u) => [$u->id => $u->name . ' ' . $u->surname]))
-                    ->required()
-                    ->columnSpan(1),
+                    ->options(User::all()->pluck('name', 'id'))
+                    ->columnSpan(1)
+                    ->required(),
 
                 Select::make('lead_ids')
                     ->label('Seleziona Lead')
                     ->multiple()
-                    ->searchable()
-                    ->options(Lead::all()->mapWithKeys(fn ($lead) => [$lead->id => $lead->name . ' ' . $lead->surname]))
-                    ->required()
-                    ->columnSpan(1),
+                    ->options(Lead::all()->pluck('name', 'id'))
+                    ->columnSpan(1)
+                    ->required(),
             ])
-            ->columns(2) // 👈 QUESTO è il punto
+            ->columns(2)
             ->statePath('data');
     }
 
-    public function submit(){
-        $ids=$this->data['lead_ids']??[];
-        if(empty($ids)){
-            Notification::make()->title('Nessun lead selezionato')->danger()->send();
-            return;
-            }
-        Lead::whereIn('id',$ids)->update(['operator_id'=>$this->data['operator_id']]);
-        Notification::make()->title('Lead assegnati')->success()->send();
-    }
+
 }
