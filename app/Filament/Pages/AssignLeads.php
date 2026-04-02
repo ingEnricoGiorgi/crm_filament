@@ -32,17 +32,25 @@ class AssignLeads extends Page implements HasForms
         $this->form->fill();
     }
 
-    public function form(Schema  $form): Schema
+    public function form(Schema $form): Schema
     {
         return $form
             ->schema([
-                Select::make('operator_id')->label('Operatore')
-                ->options(User::all()->mapWithKeys(fn ($u) => [$u->id => $u->name . ' ' . $u->surname]))->required(),
+                Select::make('operator_id')
+                    ->label('Operatore')
+                    ->options(User::all()->mapWithKeys(fn ($u) => [$u->id => $u->name . ' ' . $u->surname]))
+                    ->required()
+                    ->columnSpan(1),
 
-                Select::make('lead_ids')->label('Seleziona Lead')
-                ->multiple()->searchable()
-                ->options(Lead::all()->mapWithKeys(fn ($lead) => [$lead->id => $lead->name . ' ' . $lead->surname]))->required(),
+                Select::make('lead_ids')
+                    ->label('Seleziona Lead')
+                    ->multiple()
+                    ->searchable()
+                    ->options(Lead::all()->mapWithKeys(fn ($lead) => [$lead->id => $lead->name . ' ' . $lead->surname]))
+                    ->required()
+                    ->columnSpan(1),
             ])
+            ->columns(2) // 👈 QUESTO è il punto
             ->statePath('data');
     }
 
