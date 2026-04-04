@@ -14,8 +14,9 @@ class AppointmentsTable
     {
         return $table
             ->columns([
-                TextColumn::make('lead_id')
-                    ->numeric()
+                TextColumn::make('lead.full_name')
+                    ->label('Lead')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('date_start')
                     ->dateTime()

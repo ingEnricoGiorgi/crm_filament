@@ -31,6 +31,10 @@ class TestForm extends Page implements HasForms
 
     public $alert = null;
 
+    protected static ?string $navigationLabel = 'Crea User';
+
+    protected static ?string  $title = 'Crea Utente';
+
     public function mount(): void
     {
         $this->form->fill();

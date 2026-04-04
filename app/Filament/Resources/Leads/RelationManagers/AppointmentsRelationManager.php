@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Leads\RelationManagers;
 use App\Filament\Resources\Appointments\AppointmentResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
+use \Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class AppointmentsRelationManager extends RelationManager
@@ -17,9 +18,10 @@ class AppointmentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                \Filament\Tables\Columns\TextColumn::make('id')->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('date_start')->label('Data'),
-                \Filament\Tables\Columns\TextColumn::make('note')->limit(50),
+                // \Filament\Tables\Columns\TextColumn::make('id')->sortable(),
+                TextColumn::make('lead.full_name')->label('Lead')->searchable()->sortable(),
+                TextColumn::make('date_start')->label('Data'),
+                TextColumn::make('note')->limit(50),
             ])
             ->headerActions([
                 CreateAction::make(),

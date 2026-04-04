@@ -26,4 +26,9 @@ class Lead extends Model
     public function operator(){
         return $this->belongsTo(User::class,'operator_id');
         }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->surname;
+    }
 }
