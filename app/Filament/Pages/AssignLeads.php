@@ -29,6 +29,9 @@ class AssignLeads extends Page implements HasForms
     public ?string $message = null;
 
     public ?string $type = null;
+    
+    //ordine navigazione sidebar
+    protected static ?int $navigationSort = 1;
 
     //obbligatorio quando parte il componente
     public function mount(): void
@@ -64,7 +67,7 @@ class AssignLeads extends Page implements HasForms
                     ->description(fn () => $this->message)
                     ->success(fn () => $this->type === 'success')
                     ->danger(fn () => $this->type === 'danger')
-                    ->columnSpan(1),
+                    ->columnSpan(2),
 
                 Select::make('operator_id')
                     ->label('Operatore')
