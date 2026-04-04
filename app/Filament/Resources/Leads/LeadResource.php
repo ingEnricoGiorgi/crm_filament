@@ -24,6 +24,7 @@ class LeadResource extends Resource
 
     protected static ?string $navigationLabel = 'Contatti';
 
+
     public static function form(Schema $schema): Schema
     {
         return LeadForm::configure($schema);
